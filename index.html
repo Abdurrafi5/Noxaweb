@@ -1,11 +1,2194 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexaStudio — Premium Web Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08090c;
+    --bg2: #0d0f14;
+    --bg3: #111318;
+    --white: #f5f6fa;
+    --gray: #8a8f9e;
+    --gray2: #3a3d4a;
+    --blue: #3b82f6;
+    --blue-glow: rgba(59,130,246,0.35);
+    --blue-light: #60a5fa;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.08);
+    --radius: 16px;
+    --radius-lg: 24px;
+    --transition: cubic-bezier(0.23,1,0.32,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  #cursor {
+    width: 12px; height: 12px;
+    background: var(--blue);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 99999;
+    transition: transform 0.1s ease, width 0.3s var(--transition), height 0.3s var(--transition), background 0.3s;
+    mix-blend-mode: normal;
+  }
+  #cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid rgba(59,130,246,0.5);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 99998;
+    transition: transform 0.18s var(--transition), width 0.3s var(--transition), height 0.3s var(--transition), border-color 0.3s, opacity 0.3s;
+  }
+  body:has(a:hover) #cursor, body:has(button:hover) #cursor { transform: scale(2.5); background: var(--gold); }
+  body:has(a:hover) #cursor-ring, body:has(button:hover) #cursor-ring { transform: scale(1.5); border-color: var(--gold-light); opacity: 0.5; }
+
+  /* SCROLL PROGRESS */
+  #scroll-progress {
+    position: fixed; top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--blue), var(--gold));
+    z-index: 10000;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* PARTICLES */
+  #particles-canvas {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* TYPOGRAPHY */
+  h1, h2, h3, h4, h5 { font-family: 'Syne', sans-serif; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+  .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--blue); }
+
+  /* LAYOUT */
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  section { position: relative; z-index: 1; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s var(--transition);
+    border: none;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.01em;
+  }
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.08);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .btn:hover::after { opacity: 1; }
+  .btn-primary {
+    background: var(--blue);
+    color: white;
+    box-shadow: 0 0 32px rgba(59,130,246,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(59,130,246,0.45); }
+  .btn-ghost {
+    background: var(--glass);
+    color: var(--white);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+  }
+  .btn-ghost:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.18); }
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: #1a1200;
+    font-weight: 600;
+    box-shadow: 0 0 32px rgba(201,168,76,0.25);
+  }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(201,168,76,0.4); }
+  .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* GLASS CARD */
+  .glass-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    position: relative;
+    overflow: hidden;
+  }
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* ===== NAVBAR ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 9000;
+    padding: 20px 0;
+    transition: all 0.4s var(--transition);
+  }
+  nav.scrolled {
+    padding: 12px 0;
+    background: rgba(8,9,12,0.7);
+    backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: -0.03em;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--blue), #818cf8);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+  }
+  .logo-mark span { color: white; }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 14px;
+    color: var(--gray);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: all 0.25s;
+    font-weight: 400;
+  }
+  .nav-links a:hover { color: var(--white); background: var(--glass); }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+    background: none;
+    border: none;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px; height: 1.5px;
+    background: var(--white);
+    transition: all 0.3s;
+    border-radius: 2px;
+  }
+  .hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(8,9,12,0.98);
+    backdrop-filter: blur(24px);
+    z-index: 8999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    padding: 80px 32px 32px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--white);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: all 0.3s;
+  }
+  .mobile-menu a:hover { opacity: 1; color: var(--blue-light); }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 160px 0 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(59,130,246,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(99,102,241,0.07) 0%, transparent 60%),
+                linear-gradient(180deg, #08090c 0%, #0a0c12 100%);
+  }
+  .hero-grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 80%);
+  }
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 100px;
+    font-size: 12px;
+    color: var(--blue-light);
+    font-weight: 500;
+    margin-bottom: 24px;
+    letter-spacing: 0.05em;
+  }
+  .hero-badge-dot { width: 6px; height: 6px; background: var(--blue); border-radius: 50%; animation: pulse-dot 2s infinite; }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.7); } }
+  .hero h1 {
+    font-size: clamp(40px, 5vw, 68px);
+    line-height: 1.05;
+    margin-bottom: 24px;
+    letter-spacing: -0.04em;
+  }
+  .hero h1 .gradient-text {
+    background: linear-gradient(135deg, var(--blue-light) 0%, #818cf8 50%, var(--gold-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 56px; }
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--glass-border);
+  }
+  .hero-stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .hero-stat-label { font-size: 12px; color: var(--gray); margin-top: 2px; }
+
+  /* MOCKUP */
+  .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
+  .mockup-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    perspective: 1000px;
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+  .mockup-laptop {
+    width: 100%;
+    background: linear-gradient(145deg, #1a1d26, #0f1117);
+    border-radius: 20px;
+    padding: 16px 16px 0;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.07), 0 0 60px rgba(59,130,246,0.08);
+    transform: rotateX(4deg) rotateY(-2deg);
+  }
+  .mockup-screen {
+    background: #0a0c12;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    aspect-ratio: 16/10;
+    position: relative;
+  }
+  .mockup-screen-inner {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #0d1117 0%, #0a0c12 100%);
+    display: flex;
+    flex-direction: column;
+  }
+  .mockup-topbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .mockup-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .mockup-dot:nth-child(1) { background: #ff5f57; }
+  .mockup-dot:nth-child(2) { background: #febc2e; }
+  .mockup-dot:nth-child(3) { background: #28c840; }
+  .mockup-url { flex: 1; background: rgba(255,255,255,0.05); border-radius: 4px; height: 20px; margin: 0 16px; display: flex; align-items: center; padding: 0 8px; }
+  .mockup-url-text { width: 60%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; }
+  .mockup-body { flex: 1; display: flex; flex-direction: column; padding: 16px; gap: 10px; }
+  .mockup-hero-row { display: flex; gap: 10px; flex: 1; }
+  .mockup-hero-left { flex: 1.2; display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+  .mockup-line { height: 8px; border-radius: 4px; background: rgba(255,255,255,0.08); }
+  .mockup-line.accent { background: linear-gradient(90deg, var(--blue), #818cf8); }
+  .mockup-line.gold { background: linear-gradient(90deg, var(--gold), var(--gold-light)); width: 40% !important; }
+  .mockup-hero-right { flex: 1; background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(99,102,241,0.1)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+  .mockup-cards-row { display: flex; gap: 8px; }
+  .mockup-card { flex: 1; height: 40px; background: rgba(255,255,255,0.04); border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); }
+  .mockup-card.blue { background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.2); }
+  .mockup-base { height: 20px; background: linear-gradient(145deg, #1a1d26, #131620); border-radius: 0 0 4px 4px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .mockup-stand { width: 40%; height: 12px; background: linear-gradient(145deg, #1a1d26, #0f1117); margin: 0 auto; border-radius: 0 0 6px 6px; border: 1px solid rgba(255,255,255,0.05); border-top: none; }
+  .glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+  .glow-orb-1 { width: 300px; height: 300px; background: rgba(59,130,246,0.12); top: -60px; right: -60px; }
+  .glow-orb-2 { width: 200px; height: 200px; background: rgba(99,102,241,0.08); bottom: -40px; left: 30px; }
+  .floating-badge {
+    position: absolute;
+    padding: 10px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    background: var(--glass);
+    white-space: nowrap;
+    animation: float2 4s ease-in-out infinite;
+  }
+  .floating-badge-1 { top: 10%; right: -20px; color: #4ade80; border-color: rgba(74,222,128,0.2); animation-delay: 0s; }
+  .floating-badge-2 { bottom: 20%; left: -30px; color: var(--gold-light); border-color: rgba(201,168,76,0.25); animation-delay: 2s; }
+  @keyframes float2 { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(1deg); } }
+
+  /* FADE UP ANIMATION */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .fade-up-delay-1 { transition-delay: 0.1s; }
+  .fade-up-delay-2 { transition-delay: 0.2s; }
+  .fade-up-delay-3 { transition-delay: 0.3s; }
+  .fade-up-delay-4 { transition-delay: 0.4s; }
+  .fade-up-delay-5 { transition-delay: 0.5s; }
+  .fade-up-delay-6 { transition-delay: 0.6s; }
+
+  /* ===== STATS ===== */
+  .stats-section { padding: 80px 0; }
+  .stats-inner {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .stats-inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(59,130,246,0.03) 0%, transparent 60%);
+  }
+  .stat-item {
+    padding: 24px;
+    text-align: center;
+    border-right: 1px solid var(--glass-border);
+    position: relative;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-icon {
+    width: 48px; height: 48px;
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.15);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 20px;
+  }
+  .stat-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-number span { color: var(--blue-light); }
+  .stat-label { font-size: 13px; color: var(--gray); font-weight: 400; }
+
+  /* ===== SERVICES ===== */
+  .services-section { padding: 120px 0; }
+  .section-header { text-align: center; margin-bottom: 64px; }
+  .section-header h2 { font-size: clamp(32px, 4vw, 52px); margin: 16px 0 20px; }
+  .section-header p { font-size: 16px; color: var(--gray); max-width: 520px; margin: 0 auto; line-height: 1.7; font-weight: 300; }
+  .eyebrow-center { justify-content: center; }
+  .eyebrow-center::before { display: none; }
+  .eyebrow-center::after { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--blue); }
+
+  .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .service-card {
+    padding: 28px;
+    border-radius: var(--radius-lg);
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    transition: all 0.4s var(--transition);
+    position: relative;
+    overflow: hidden;
+    group: true;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(59,130,246,0.06) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .service-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .service-card:hover { transform: translateY(-6px); border-color: rgba(59,130,246,0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(59,130,246,0.06); }
+  .service-card:hover::before, .service-card:hover::after { opacity: 1; }
+  .service-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .service-icon.blue { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.15); }
+  .service-icon.purple { background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.15); }
+  .service-icon.gold { background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.15); }
+  .service-icon.green { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.15); }
+  .service-icon.pink { background: rgba(244,114,182,0.1); border: 1px solid rgba(244,114,182,0.15); }
+  .service-icon.teal { background: rgba(20,184,166,0.1); border: 1px solid rgba(20,184,166,0.15); }
+  .service-icon.orange { background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.15); }
+  .service-icon.red { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.15); }
+  .service-card h3 { font-size: 16px; margin-bottom: 10px; font-weight: 600; letter-spacing: -0.01em; }
+  .service-card p { font-size: 13px; color: var(--gray); line-height: 1.6; font-weight: 300; }
+  .service-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--blue-light);
+    margin-top: 16px;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.3s var(--transition);
+  }
+  .service-card:hover .service-arrow { opacity: 1; transform: translateX(0); }
+
+  /* ===== WHY US ===== */
+  .whyus-section { padding: 120px 0; background: linear-gradient(180deg, transparent 0%, rgba(59,130,246,0.02) 50%, transparent 100%); }
+  .whyus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .whyus-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .dashboard-mockup {
+    width: 100%;
+    background: linear-gradient(145deg, #13161f, #0d1017);
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.07);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 40px rgba(59,130,246,0.06);
+  }
+  .dash-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .dash-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--white); }
+  .dash-badge { padding: 4px 10px; background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.2); border-radius: 100px; font-size: 11px; color: #4ade80; }
+  .dash-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
+  .dash-metric {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .dash-metric-num { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--blue-light); }
+  .dash-metric-label { font-size: 10px; color: var(--gray); margin-top: 2px; }
+  .dash-chart { height: 80px; display: flex; align-items: flex-end; gap: 6px; padding: 0; margin-bottom: 12px; }
+  .dash-bar { flex: 1; background: rgba(59,130,246,0.15); border-radius: 3px 3px 0 0; border: 1px solid rgba(59,130,246,0.2); }
+  .dash-bar.active { background: linear-gradient(180deg, rgba(59,130,246,0.5), rgba(59,130,246,0.1)); border-color: var(--blue); }
+  .dash-footer { display: flex; gap: 8px; }
+  .dash-tag { padding: 4px 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 100px; font-size: 10px; color: var(--gray); }
+
+  .features-list { display: flex; flex-direction: column; gap: 20px; }
+  .feature-item { display: flex; gap: 16px; align-items: flex-start; }
+  .feature-check {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .feature-check.blue { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); }
+  .feature-check.gold { background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.2); }
+  .feature-content h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .feature-content p { font-size: 13px; color: var(--gray); line-height: 1.5; font-weight: 300; }
+
+  /* ===== PORTFOLIO ===== */
+  .portfolio-section { padding: 120px 0; }
+  .portfolio-filters { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+  .filter-btn {
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s var(--transition);
+    border: 1px solid var(--glass-border);
+    background: var(--glass);
+    color: var(--gray);
+    backdrop-filter: blur(8px);
+  }
+  .filter-btn.active, .filter-btn:hover { background: var(--blue); border-color: var(--blue); color: white; }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .portfolio-card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    cursor: pointer;
+    group: true;
+  }
+  .portfolio-bg {
+    width: 100%; height: 100%;
+    transition: transform 0.6s var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .portfolio-card:hover .portfolio-bg { transform: scale(1.04); }
+  .portfolio-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(8,9,12,0.9) 0%, rgba(8,9,12,0.3) 50%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    display: flex;
+    align-items: flex-end;
+    padding: 24px;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .portfolio-card:hover .portfolio-overlay { opacity: 1; }
+  .portfolio-meta { width: 100%; }
+  .portfolio-cat { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--blue-light); margin-bottom: 4px; }
+  .portfolio-name { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  .portfolio-icon { font-size: 40px; }
+  .portfolio-sub { font-size: 24px; opacity: 0.4; }
+
+  /* ===== PRICING ===== */
+  .pricing-section { padding: 120px 0; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
+  .pricing-card {
+    padding: 36px;
+    border-radius: var(--radius-lg);
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    transition: all 0.4s var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+  .pricing-card.popular {
+    background: linear-gradient(145deg, rgba(59,130,246,0.08), rgba(99,102,241,0.04));
+    border-color: rgba(59,130,246,0.3);
+    transform: scale(1.03);
+    box-shadow: 0 0 60px rgba(59,130,246,0.12), inset 0 1px 0 rgba(59,130,246,0.15);
+  }
+  .popular-badge {
+    display: inline-flex;
+    padding: 4px 12px;
+    background: var(--blue);
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 20px;
+    letter-spacing: 0.05em;
+  }
+  .pricing-plan { font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gray); margin-bottom: 8px; }
+  .pricing-price {
+    font-family: 'Syne', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: 4px;
+    color: var(--white);
+  }
+  .pricing-price sup { font-size: 20px; font-weight: 600; vertical-align: top; margin-top: 10px; display: inline-block; color: var(--gray); }
+  .pricing-period { font-size: 12px; color: var(--gray); margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--glass-border); }
+  .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .pricing-features li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: rgba(245,246,250,0.8); }
+  .pricing-features li span { font-size: 14px; }
+  .check-icon { width: 18px; height: 18px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+  .check-icon.gold-check { background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.2); }
+
+  /* ===== PROCESS ===== */
+  .process-section { padding: 120px 0; }
+  .process-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .process-line {
+    position: absolute;
+    left: 28px;
+    top: 48px;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--blue), rgba(59,130,246,0.05));
+  }
+  .process-step {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    padding: 28px 0;
+    position: relative;
+  }
+  .step-num {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(99,102,241,0.1));
+    border: 1px solid rgba(59,130,246,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--blue-light);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(59,130,246,0.15);
+  }
+  .step-content { padding-top: 10px; flex: 1; }
+  .step-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--blue-light); margin-bottom: 6px; }
+  .step-content h3 { font-size: 20px; margin-bottom: 8px; }
+  .step-content p { font-size: 14px; color: var(--gray); line-height: 1.6; font-weight: 300; }
+
+  /* ===== TESTIMONIALS ===== */
+  .testimonials-section { padding: 120px 0; }
+  .testimonials-track-wrap { overflow: hidden; margin: 0 -32px; }
+  .testimonials-track {
+    display: flex;
+    gap: 20px;
+    padding: 8px 32px;
+    animation: slide-testimonials 30s linear infinite;
+  }
+  .testimonials-track:hover { animation-play-state: paused; }
+  @keyframes slide-testimonials {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 10px)); }
+  }
+  .testi-card {
+    flex: 0 0 360px;
+    padding: 28px;
+    border-radius: var(--radius-lg);
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s var(--transition);
+  }
+  .testi-card:hover { border-color: rgba(59,130,246,0.2); transform: translateY(-4px); }
+  .testi-stars { display: flex; gap: 3px; margin-bottom: 16px; }
+  .testi-star { color: var(--gold-light); font-size: 14px; }
+  .testi-text { font-size: 14px; color: rgba(245,246,250,0.75); line-height: 1.7; margin-bottom: 20px; font-weight: 300; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .testi-name { font-size: 14px; font-weight: 600; }
+  .testi-company { font-size: 12px; color: var(--gray); }
+
+  /* ===== ABOUT ===== */
+  .about-section { padding: 120px 0; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .about-img {
+    border-radius: var(--radius);
+    overflow: hidden;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    transition: transform 0.4s var(--transition);
+  }
+  .about-img:hover { transform: scale(1.02); }
+  .about-img-1 { background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(99,102,241,0.08)); grid-column: 1; grid-row: 1 / 3; aspect-ratio: 1/2; font-size: 48px; }
+  .about-img-2 { background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(232,201,122,0.05)); }
+  .about-img-3 { background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(20,184,166,0.06)); }
+  .about-content h2 { font-size: clamp(30px, 3.5vw, 44px); margin: 16px 0 20px; }
+  .about-content p { font-size: 15px; color: var(--gray); line-height: 1.7; margin-bottom: 16px; font-weight: 300; }
+  .team-grid { display: flex; gap: 12px; margin-top: 32px; }
+  .team-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), #818cf8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 2px solid var(--bg);
+    margin-left: -10px;
+    transition: transform 0.3s;
+  }
+  .team-avatar:first-child { margin-left: 0; }
+  .team-avatar:hover { transform: translateY(-4px) scale(1.1); z-index: 10; }
+  .team-info { display: flex; align-items: center; gap: 12px; }
+  .team-count { font-size: 14px; color: var(--gray); }
+  .team-count strong { color: var(--white); }
+
+  /* ===== FAQ ===== */
+  .faq-section { padding: 120px 0; }
+  .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+  .faq-list { display: flex; flex-direction: column; gap: 12px; }
+  .faq-item { border: 1px solid var(--glass-border); border-radius: var(--radius); overflow: hidden; transition: border-color 0.3s; }
+  .faq-item.open { border-color: rgba(59,130,246,0.25); }
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 15px;
+    gap: 16px;
+    background: var(--glass);
+    transition: background 0.3s;
+  }
+  .faq-item.open .faq-question { background: rgba(59,130,246,0.04); }
+  .faq-toggle {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: all 0.3s;
+    color: var(--gray);
+  }
+  .faq-item.open .faq-toggle { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.2); color: var(--blue-light); transform: rotate(45deg); }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s var(--transition), padding 0.4s;
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    padding: 0 24px;
+    font-weight: 300;
+  }
+  .faq-item.open .faq-answer { max-height: 200px; padding: 0 24px 20px; }
+  .faq-side h2 { font-size: clamp(28px, 3vw, 40px); margin: 16px 0 20px; }
+  .faq-side p { font-size: 15px; color: var(--gray); line-height: 1.7; margin-bottom: 32px; font-weight: 300; }
+
+  /* ===== CONTACT ===== */
+  .contact-section { padding: 120px 0; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
+  .contact-info h2 { font-size: clamp(28px, 3vw, 40px); margin: 16px 0 20px; }
+  .contact-info p { font-size: 15px; color: var(--gray); line-height: 1.7; margin-bottom: 40px; font-weight: 300; }
+  .contact-items { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
+  .contact-item { display: flex; gap: 14px; align-items: center; }
+  .contact-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .contact-item-text .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray); margin-bottom: 2px; }
+  .contact-item-text .value { font-size: 14px; font-weight: 500; }
+  .social-links { display: flex; gap: 10px; }
+  .social-link {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.3s var(--transition);
+  }
+  .social-link:hover { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.25); transform: translateY(-3px); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray); font-weight: 500; }
+  .form-input, .form-textarea {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    transition: all 0.3s;
+    backdrop-filter: blur(8px);
+    outline: none;
+  }
+  .form-input:focus, .form-textarea:focus { border-color: rgba(59,130,246,0.4); background: rgba(59,130,246,0.03); box-shadow: 0 0 0 3px rgba(59,130,246,0.08); }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--gray2); }
+  .form-textarea { resize: vertical; min-height: 120px; }
+  .whatsapp-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    border-radius: var(--radius);
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s var(--transition);
+    margin-top: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .whatsapp-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(37,211,102,0.25); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 80px 0 40px;
+    border-top: 1px solid var(--glass-border);
+    background: linear-gradient(180deg, transparent 0%, rgba(8,9,12,0.5) 100%);
+  }
+  .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+  .footer-brand p { font-size: 14px; color: var(--gray); line-height: 1.7; margin: 16px 0 24px; max-width: 260px; font-weight: 300; }
+  .footer-col h5 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gray); margin-bottom: 20px; font-family: 'DM Sans', sans-serif; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links a { font-size: 14px; color: rgba(245,246,250,0.55); text-decoration: none; transition: color 0.25s; }
+  .footer-links a:hover { color: var(--white); }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 32px; border-top: 1px solid var(--glass-border); }
+  .footer-copy { font-size: 13px; color: var(--gray); }
+  .footer-copy span { color: var(--blue-light); }
+
+  /* BACK TO TOP */
+  #back-to-top {
+    position: fixed;
+    bottom: 32px; right: 32px;
+    width: 44px; height: 44px;
+    background: rgba(59,130,246,0.15);
+    border: 1px solid rgba(59,130,246,0.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s var(--transition);
+    backdrop-filter: blur(12px);
+    font-size: 18px;
+    color: var(--blue-light);
+  }
+  #back-to-top.visible { opacity: 1; transform: translateY(0); }
+  #back-to-top:hover { background: rgba(59,130,246,0.25); transform: translateY(-4px); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-content { grid-template-columns: 1fr; gap: 60px; }
+    .hero-visual { order: -1; }
+    .mockup-wrap { max-width: 420px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .stats-inner { grid-template-columns: repeat(2,1fr); }
+    .stat-item:nth-child(2) { border-right: none; }
+    .stat-item:nth-child(1), .stat-item:nth-child(2) { border-bottom: 1px solid var(--glass-border); }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links, .nav-right .btn { display: none; }
+    .hamburger { display: flex; }
+    .hero h1 { font-size: 36px; }
+    .hero { padding: 120px 0 80px; }
+    .whyus-grid, .about-grid, .faq-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .pricing-card.popular { transform: scale(1); }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+    .stats-inner { padding: 32px 20px; }
+    .container { padding: 0 20px; }
+    .hero-stats { flex-wrap: wrap; gap: 20px; }
+    .team-grid { flex-wrap: wrap; }
+  }
+
+  @media (max-width: 480px) {
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .hero-ctas { flex-direction: column; }
+    .hero-ctas .btn { justify-content: center; }
+    .stats-inner { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* GLOW TEXT */
+  .glow { text-shadow: 0 0 30px rgba(59,130,246,0.4); }
+
+  /* SECTION DIVIDER */
+  .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--glass-border), transparent); margin: 0; }
+
+  /* CTA SECTION */
+  .cta-section {
+    padding: 100px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(59,130,246,0.07) 0%, transparent 70%);
+  }
+  .cta-section h2 { font-size: clamp(32px, 4vw, 54px); margin-bottom: 20px; position: relative; }
+  .cta-section p { font-size: 16px; color: var(--gray); margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto; font-weight: 300; line-height: 1.7; position: relative; }
+  .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+</style>
 </head>
 <body>
-    
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- SCROLL PROGRESS -->
+<div id="scroll-progress"></div>
+
+<!-- PARTICLES -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <div class="logo-mark"><span>N</span></div>
+        NexaStudio
+      </a>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="#contact" class="btn btn-primary" style="font-size:13px;padding:10px 20px;">Konsultasi Gratis</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#portfolio" class="mobile-link">Portfolio</a>
+  <a href="#pricing" class="mobile-link">Pricing</a>
+  <a href="#testimonials" class="mobile-link">Testimonials</a>
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+  <a href="#contact" class="btn btn-primary" style="margin-top:16px;">Konsultasi Gratis</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-badge fade-up">
+          <span class="hero-badge-dot"></span>
+          ✦ Premium Web Agency — Est. 2019
+        </div>
+        <h1 class="fade-up fade-up-delay-1">
+          Bangun Company Profile<br>
+          <span class="gradient-text">Modern Untuk<br>Bisnis Anda</span>
+        </h1>
+        <p class="hero-sub fade-up fade-up-delay-2">
+          Tingkatkan branding, bangun kepercayaan, dan tampilkan profesionalitas bisnis Anda dengan website company profile berkelas enterprise.
+        </p>
+        <div class="hero-ctas fade-up fade-up-delay-3">
+          <a href="#contact" class="btn btn-primary">
+            Mulai Sekarang
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="#portfolio" class="btn btn-ghost">
+            Lihat Portfolio
+          </a>
+        </div>
+        <div class="hero-stats fade-up fade-up-delay-4">
+          <div>
+            <div class="hero-stat-num">150+</div>
+            <div class="hero-stat-label">Website Selesai</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">98%</div>
+            <div class="hero-stat-label">Client Puas</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">5 Thn</div>
+            <div class="hero-stat-label">Pengalaman</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual fade-up fade-up-delay-2">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="mockup-wrap">
+          <div class="mockup-laptop">
+            <div class="mockup-screen">
+              <div class="mockup-screen-inner">
+                <div class="mockup-topbar">
+                  <div class="mockup-dot"></div>
+                  <div class="mockup-dot"></div>
+                  <div class="mockup-dot"></div>
+                  <div class="mockup-url"><div class="mockup-url-text"></div></div>
+                </div>
+                <div class="mockup-body">
+                  <div class="mockup-hero-row">
+                    <div class="mockup-hero-left">
+                      <div class="mockup-line accent" style="width:60%;height:10px"></div>
+                      <div class="mockup-line" style="width:90%"></div>
+                      <div class="mockup-line" style="width:75%"></div>
+                      <div class="mockup-line" style="width:80%"></div>
+                      <div class="mockup-line gold" style="margin-top:4px"></div>
+                    </div>
+                    <div class="mockup-hero-right">🏢</div>
+                  </div>
+                  <div class="mockup-cards-row">
+                    <div class="mockup-card blue"></div>
+                    <div class="mockup-card"></div>
+                    <div class="mockup-card"></div>
+                  </div>
+                  <div class="mockup-chart" style="height:50px;display:flex;align-items:flex-end;gap:4px;">
+                    <div style="flex:1;height:40%;background:rgba(59,130,246,0.2);border-radius:3px 3px 0 0"></div>
+                    <div style="flex:1;height:65%;background:rgba(59,130,246,0.3);border-radius:3px 3px 0 0"></div>
+                    <div style="flex:1;height:50%;background:rgba(59,130,246,0.2);border-radius:3px 3px 0 0"></div>
+                    <div style="flex:1;height:80%;background:rgba(59,130,246,0.5);border-radius:3px 3px 0 0;border:1px solid rgba(59,130,246,0.4)"></div>
+                    <div style="flex:1;height:60%;background:rgba(59,130,246,0.25);border-radius:3px 3px 0 0"></div>
+                    <div style="flex:1;height:90%;background:linear-gradient(180deg,#60a5fa,rgba(59,130,246,0.2));border-radius:3px 3px 0 0;border:1px solid #60a5fa"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mockup-base"></div>
+          </div>
+          <div class="mockup-stand"></div>
+          <div class="floating-badge floating-badge-1">✦ 100% Responsive</div>
+          <div class="floating-badge floating-badge-2">🚀 Loading &lt; 2s</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-inner fade-up">
+      <div class="stat-item">
+        <div class="stat-icon">🚀</div>
+        <div class="stat-number"><span id="stat1">0</span>+</div>
+        <div class="stat-label">Website Selesai</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-number"><span id="stat2">0</span>%</div>
+        <div class="stat-label">Client Puas</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon">🏆</div>
+        <div class="stat-number"><span id="stat3">0</span></div>
+        <div class="stat-label">Tahun Pengalaman</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon">💬</div>
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Support Tersedia</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow eyebrow-center">Layanan Kami</div>
+      <h2>Solusi Digital<br><span style="color:var(--blue-light)">Lengkap & Profesional</span></h2>
+      <p>Dari company profile hingga sistem enterprise, kami hadirkan solusi digital yang tepat untuk setiap kebutuhan bisnis Anda.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-up">
+        <div class="service-icon blue">🏢</div>
+        <h3>Company Profile</h3>
+        <p>Website company profile modern, elegan, dan konvertif untuk meningkatkan kredibilitas bisnis Anda di era digital.</p>
+        <div class="service-arrow">Pelajari lebih lanjut →</div>
+      </div>
+      <div class="service-card fade-up fade-up-delay-1">
+        <div class="service-icon purple">⚡</div>
+        <h3>Landing Page</h3>
+        <p>Landing page high-converting yang dirancang khusus untuk memaksimalkan leads dan konversi produk atau layanan Anda.</p>
+        <div class="service-arrow">Pelajari lebih lanjut →</div>
+      </div>
+      <div class="service-card fade-up fade-up-delay-2">
+        <div class="service-icon gold">🛍️</div>
+        <h3>Website UMKM</h3>
+        <p>Solusi website profesional untuk UMKM yang ingin berkembang dan menjangkau pasar lebih luas secara online.</p>
+        <div class="service-arrow">Pelajari lebih lanjut →</div>
+      </div>
+      <div class="service-card fade-up fade-up-delay-3">
+        <div class="service-icon green">🎓</div>
+        <h3>Website Sekolah</h3>
+        <p>Platform digital sekolah modern dengan sistem informasi terintegrasi, PPDB online, dan konten akademik.</p>
+        <div class="service-arrow">Pelajari lebih lanjut →</div>
+      </div>
+      <div class="service-card fade-up fade-up-delay-1">
+        <div class="service-icon pink">✨</div>
+        <h3>Website Portfolio</h3>
+        <p>Portfolio website yang memukau untuk menampilkan karya dan keahlian Anda secara profesional dan artistik.</p>
+        <div class="service-arrow">Pelajari lebih lanjut →</div>
+      </div>
+      <div class="service-card fade-up fade-up-delay-2">
+        <div class="service-icon teal">⚙️</div>
+        <h3>Custom Development</h3>
+        <p>Pengembangan website custom dengan fitur spesifik sesuai kebutuhan bisnis Anda, dari MVP hingga enterprise.</p>
+        <div class="service-arrow">Pelajari lebih lanjut →</div>
+      </div>
+      <div class="service-card fade-up fade-up-delay-3">
+        <div class="service-icon orange">🔍</div>
+        <h3>SEO Optimization</h3>
+        <p>Optimalkan ranking pencarian Google dengan strategi SEO terukur agar bisnis Anda mudah ditemukan pelanggan.</p>
+        <div class="service-arrow">Pelajari lebih lanjut →</div>
+      </div>
+      <div class="service-card fade-up fade-up-delay-4">
+        <div class="service-icon red">🛡️</div>
+        <h3>Website Maintenance</h3>
+        <p>Layanan pemeliharaan website berkala untuk memastikan performa, keamanan, dan pembaruan konten optimal.</p>
+        <div class="service-arrow">Pelajari lebih lanjut →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHY US -->
+<section class="whyus-section">
+  <div class="container">
+    <div class="whyus-grid">
+      <div class="whyus-visual fade-up">
+        <div class="dashboard-mockup">
+          <div class="dash-row">
+            <div class="dash-title">Project Dashboard</div>
+            <div class="dash-badge">● Live</div>
+          </div>
+          <div class="dash-metrics">
+            <div class="dash-metric">
+              <div class="dash-metric-num">98</div>
+              <div class="dash-metric-label">Performance</div>
+            </div>
+            <div class="dash-metric">
+              <div class="dash-metric-num">100</div>
+              <div class="dash-metric-label">Accessibility</div>
+            </div>
+            <div class="dash-metric">
+              <div class="dash-metric-num">97</div>
+              <div class="dash-metric-label">SEO Score</div>
+            </div>
+          </div>
+          <div class="dash-chart">
+            <div class="dash-bar" style="height:40%"></div>
+            <div class="dash-bar" style="height:60%"></div>
+            <div class="dash-bar" style="height:50%"></div>
+            <div class="dash-bar active" style="height:85%"></div>
+            <div class="dash-bar" style="height:70%"></div>
+            <div class="dash-bar active" style="height:95%"></div>
+            <div class="dash-bar" style="height:75%"></div>
+            <div class="dash-bar" style="height:55%"></div>
+          </div>
+          <div class="dash-footer">
+            <div class="dash-tag">✓ Responsive</div>
+            <div class="dash-tag">⚡ Fast Load</div>
+            <div class="dash-tag">🔒 Secure</div>
+          </div>
+        </div>
+      </div>
+      <div class="fade-up fade-up-delay-2">
+        <div class="eyebrow" style="margin-bottom:16px">Kenapa Kami</div>
+        <h2 style="font-size:clamp(28px,3.5vw,44px);margin-bottom:16px;letter-spacing:-0.03em">Standar Kualitas<br><span style="color:var(--blue-light)">Enterprise Class</span></h2>
+        <p style="font-size:15px;color:var(--gray);margin-bottom:36px;line-height:1.7;font-weight:300">Kami tidak hanya membuat website — kami membangun aset digital yang bekerja untuk bisnis Anda 24 jam penuh.</p>
+        <div class="features-list">
+          <div class="feature-item">
+            <div class="feature-check blue">✦</div>
+            <div class="feature-content">
+              <h4>Desain Modern & Premium</h4>
+              <p>Setiap pixel dirancang dengan presisi untuk memberikan kesan mewah dan profesional.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-check blue">📱</div>
+            <div class="feature-content">
+              <h4>Responsive Semua Device</h4>
+              <p>Tampil sempurna di desktop, tablet, dan smartphone tanpa kompromi.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-check gold">⚡</div>
+            <div class="feature-content">
+              <h4>Loading Ultra Cepat</h4>
+              <p>Optimasi performa tingkat lanjut dengan skor Lighthouse 95+ untuk UX terbaik.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-check gold">🔒</div>
+            <div class="feature-content">
+              <h4>Keamanan & SEO Friendly</h4>
+              <p>SSL, proteksi keamanan, dan struktur SEO yang dioptimalkan untuk ranking Google.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-check blue">🔄</div>
+            <div class="feature-content">
+              <h4>Gratis Revisi & After Sales</h4>
+              <p>Revisi tanpa batas selama masa pengerjaan dan dukungan penuh pasca launching.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PORTFOLIO -->
+<section class="portfolio-section" id="portfolio">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow eyebrow-center">Portfolio</div>
+      <h2>Hasil Karya <span style="color:var(--gold-light)">Terbaik Kami</span></h2>
+      <p>Setiap project adalah cerita sukses. Lihat bagaimana kami mengubah visi bisnis menjadi website yang mengesankan.</p>
+    </div>
+    <div class="portfolio-filters fade-up">
+      <button class="filter-btn active">Semua</button>
+      <button class="filter-btn">Corporate</button>
+      <button class="filter-btn">Fashion</button>
+      <button class="filter-btn">Automotive</button>
+      <button class="filter-btn">Restaurant</button>
+      <button class="filter-btn">Technology</button>
+      <button class="filter-btn">Education</button>
+    </div>
+    <div class="portfolio-grid">
+      <div class="portfolio-card fade-up">
+        <div class="portfolio-bg" style="background:linear-gradient(135deg,#0f1729,#1a2744)">
+          <div class="portfolio-icon">🏛️</div>
+          <div class="portfolio-sub">Corporate</div>
+        </div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-meta">
+            <div class="portfolio-cat">Corporate</div>
+            <div class="portfolio-name">Mandiri Capital Partners</div>
+            <a href="#" class="btn btn-ghost" style="font-size:12px;padding:8px 16px;">View Case Study →</a>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-card fade-up fade-up-delay-1">
+        <div class="portfolio-bg" style="background:linear-gradient(135deg,#1a0f24,#2d1048)">
+          <div class="portfolio-icon">👗</div>
+          <div class="portfolio-sub">Fashion</div>
+        </div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-meta">
+            <div class="portfolio-cat">Fashion</div>
+            <div class="portfolio-name">Vera Couture Jakarta</div>
+            <a href="#" class="btn btn-ghost" style="font-size:12px;padding:8px 16px;">View Case Study →</a>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-card fade-up fade-up-delay-2">
+        <div class="portfolio-bg" style="background:linear-gradient(135deg,#1a1200,#2e1f00)">
+          <div class="portfolio-icon">🚗</div>
+          <div class="portfolio-sub">Automotive</div>
+        </div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-meta">
+            <div class="portfolio-cat">Automotive</div>
+            <div class="portfolio-name">AutoPrime Dealership</div>
+            <a href="#" class="btn btn-ghost" style="font-size:12px;padding:8px 16px;">View Case Study →</a>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-card fade-up fade-up-delay-1">
+        <div class="portfolio-bg" style="background:linear-gradient(135deg,#0a1f12,#0f3320)">
+          <div class="portfolio-icon">🍜</div>
+          <div class="portfolio-sub">Restaurant</div>
+        </div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-meta">
+            <div class="portfolio-cat">Restaurant</div>
+            <div class="portfolio-name">Nusantara Dining</div>
+            <a href="#" class="btn btn-ghost" style="font-size:12px;padding:8px 16px;">View Case Study →</a>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-card fade-up fade-up-delay-2">
+        <div class="portfolio-bg" style="background:linear-gradient(135deg,#0f1729,#0a1040)">
+          <div class="portfolio-icon">💻</div>
+          <div class="portfolio-sub">Technology</div>
+        </div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-meta">
+            <div class="portfolio-cat">Technology</div>
+            <div class="portfolio-name">Nexus AI Solutions</div>
+            <a href="#" class="btn btn-ghost" style="font-size:12px;padding:8px 16px;">View Case Study →</a>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-card fade-up fade-up-delay-3">
+        <div class="portfolio-bg" style="background:linear-gradient(135deg,#130a1f,#1e1040)">
+          <div class="portfolio-icon">🎓</div>
+          <div class="portfolio-sub">Education</div>
+        </div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-meta">
+            <div class="portfolio-cat">Education</div>
+            <div class="portfolio-name">Akademi Digital Nusantara</div>
+            <a href="#" class="btn btn-ghost" style="font-size:12px;padding:8px 16px;">View Case Study →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow eyebrow-center">Harga</div>
+      <h2>Paket yang <span style="color:var(--blue-light)">Transparan</span></h2>
+      <p>Investasi terbaik untuk transformasi digital bisnis Anda. Pilih paket yang sesuai kebutuhan.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card fade-up">
+        <div class="pricing-plan">Starter</div>
+        <div class="pricing-price"><sup>Rp</sup>3,5 Jt</div>
+        <div class="pricing-period">Pembayaran sekali · Estimasi 7–10 hari kerja</div>
+        <ul class="pricing-features">
+          <li><div class="check-icon">✓</div> Desain Custom Premium</li>
+          <li><div class="check-icon">✓</div> Hingga 5 Halaman</li>
+          <li><div class="check-icon">✓</div> Responsive Mobile</li>
+          <li><div class="check-icon">✓</div> Form Kontak</li>
+          <li><div class="check-icon">✓</div> Basic SEO Setup</li>
+          <li><div class="check-icon">✓</div> 3x Revisi</li>
+          <li><div class="check-icon">✓</div> 1 Bulan Support</li>
+          <li style="opacity:0.35"><div class="check-icon" style="border-color:var(--gray2)">–</div> CMS / Admin Panel</li>
+          <li style="opacity:0.35"><div class="check-icon" style="border-color:var(--gray2)">–</div> Integrasi API</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost" style="width:100%;justify-content:center;">Pilih Starter</a>
+      </div>
+      <div class="pricing-card popular fade-up fade-up-delay-1">
+        <div class="popular-badge">⭐ Paling Populer</div>
+        <div class="pricing-plan" style="color:var(--blue-light)">Business</div>
+        <div class="pricing-price"><sup>Rp</sup>8,5 Jt</div>
+        <div class="pricing-period">Pembayaran sekali · Estimasi 14–21 hari kerja</div>
+        <ul class="pricing-features">
+          <li><div class="check-icon">✓</div> Desain Custom Premium</li>
+          <li><div class="check-icon">✓</div> Hingga 15 Halaman</li>
+          <li><div class="check-icon">✓</div> Responsive All Device</li>
+          <li><div class="check-icon">✓</div> CMS / Admin Panel</li>
+          <li><div class="check-icon">✓</div> Advanced SEO Optimization</li>
+          <li><div class="check-icon">✓</div> Unlimited Revisi</li>
+          <li><div class="check-icon">✓</div> 6 Bulan Support</li>
+          <li><div class="check-icon">✓</div> Google Analytics</li>
+          <li><div class="check-icon">✓</div> Domain & Hosting 1 Tahun</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary" style="width:100%;justify-content:center;">Pilih Business</a>
+      </div>
+      <div class="pricing-card fade-up fade-up-delay-2">
+        <div class="pricing-plan" style="color:var(--gold-light)">Enterprise</div>
+        <div class="pricing-price" style="background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text"><sup style="-webkit-text-fill-color:var(--gray)">Rp</sup>Custom</div>
+        <div class="pricing-period">Diskusikan kebutuhan · Timeline custom</div>
+        <ul class="pricing-features">
+          <li><div class="check-icon gold-check">✓</div> Halaman Tidak Terbatas</li>
+          <li><div class="check-icon gold-check">✓</div> Custom Fitur & Integrasi API</li>
+          <li><div class="check-icon gold-check">✓</div> Dashboard Admin Full</li>
+          <li><div class="check-icon gold-check">✓</div> Sistem Multi-bahasa</li>
+          <li><div class="check-icon gold-check">✓</div> Advanced SEO + Analytics</li>
+          <li><div class="check-icon gold-check">✓</div> Dedicated Project Manager</li>
+          <li><div class="check-icon gold-check">✓</div> 1 Tahun Support Penuh</li>
+          <li><div class="check-icon gold-check">✓</div> Server & Infrastruktur</li>
+          <li><div class="check-icon gold-check">✓</div> SLA & Priority Support</li>
+        </ul>
+        <a href="#contact" class="btn btn-gold" style="width:100%;justify-content:center;">Hubungi Kami</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROCESS -->
+<section class="process-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow eyebrow-center">Proses Kerja</div>
+      <h2>Dari Ide Hingga<br><span style="color:var(--blue-light)">Website Live</span></h2>
+      <p>Proses kerja kami yang terstruktur memastikan setiap project selesai tepat waktu dan sesuai ekspektasi.</p>
+    </div>
+    <div class="process-timeline">
+      <div class="process-line"></div>
+      <div class="process-step fade-up">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-tag">Discovery</div>
+          <h3>Konsultasi & Briefing</h3>
+          <p>Kami memahami visi, tujuan, dan kebutuhan bisnis Anda secara menyeluruh melalui sesi konsultasi mendalam.</p>
+        </div>
+      </div>
+      <div class="process-step fade-up fade-up-delay-1">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-tag">Strategy</div>
+          <h3>Planning & Sitemap</h3>
+          <p>Menyusun struktur website, wireframe, dan roadmap pengembangan yang komprehensif sesuai tujuan bisnis.</p>
+        </div>
+      </div>
+      <div class="process-step fade-up fade-up-delay-2">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-tag">Creative</div>
+          <h3>UI/UX Design</h3>
+          <p>Tim desainer kami menciptakan tampilan visual premium dengan fokus pada user experience yang intuitif.</p>
+        </div>
+      </div>
+      <div class="process-step fade-up fade-up-delay-3">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-tag">Build</div>
+          <h3>Development</h3>
+          <p>Proses coding dengan teknologi terkini, performa tinggi, keamanan berlapis, dan kode yang bersih.</p>
+        </div>
+      </div>
+      <div class="process-step fade-up fade-up-delay-4">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <div class="step-tag">Polish</div>
+          <h3>Review & Revisi</h3>
+          <p>Presentasi hasil kepada Anda, pengumpulan feedback, dan penyempurnaan hingga 100% sesuai ekspektasi.</p>
+        </div>
+      </div>
+      <div class="process-step fade-up fade-up-delay-5">
+        <div class="step-num">06</div>
+        <div class="step-content">
+          <div class="step-tag">Launch</div>
+          <h3>Go Live! 🚀</h3>
+          <p>Website diluncurkan ke publik dengan konfigurasi server optimal dan monitoring performa real-time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="testimonials">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow eyebrow-center">Testimonial</div>
+      <h2>Kata Mereka<br><span style="color:var(--gold-light)">Tentang Kami</span></h2>
+      <p>Kepercayaan client adalah aset terbesar kami. Ini yang mereka rasakan.</p>
+    </div>
+  </div>
+  <div class="testimonials-track-wrap fade-up">
+    <div class="testimonials-track" id="testi-track">
+      <!-- Testimonials duplicated for seamless loop -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"NexaStudio benar-benar mengubah citra perusahaan kami. Website yang mereka buat jauh melampaui ekspektasi — premium, cepat, dan konversi meningkat 3x lipat dalam 2 bulan pertama."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#3b82f6,#818cf8)">👨‍💼</div>
+          <div><div class="testi-name">Bapak Arief Wibowo</div><div class="testi-company">CEO, Mandiri Capital</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Profesional, on-time, dan hasilnya luar biasa. Tim NexaStudio sangat responsif dan benar-benar memahami apa yang kami butuhkan sebagai brand fashion premium."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#ec4899,#f43f5e)">👩‍🦰</div>
+          <div><div class="testi-name">Ibu Sari Dewi</div><div class="testi-company">Founder, Vera Couture</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Sudah pakai 3 vendor sebelumnya, NexaStudio yang pertama benar-benar deliver. Website kami sekarang jadi yang paling bagus di industri otomotif lokal. Highly recommended!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#f59e0b,#c9a84c)">👨‍💻</div>
+          <div><div class="testi-name">Budi Santoso</div><div class="testi-company">Marketing Dir, AutoPrime</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Kami sangat puas dengan website restoran kami. Tampilan elegan, booking online berjalan mulus, dan Google ranking naik signifikan. Tim support 24/7 sangat membantu."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#22c55e,#14b8a6)">👩‍🍳</div>
+          <div><div class="testi-name">Chef Ratna Puspita</div><div class="testi-company">Owner, Nusantara Dining</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Sebagai perusahaan teknologi, kami butuh vendor yang paham standar tinggi. NexaStudio deliver website yang terasa seperti buatan Silicon Valley agency. Exceptional work!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#6366f1,#3b82f6)">🧑‍💻</div>
+          <div><div class="testi-name">Kevin Hartanto</div><div class="testi-company">CTO, Nexus AI Solutions</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Website sekolah kami kini menjadi kebanggaan institusi. PPDB online berjalan sempurna, orang tua murid pun memuji tampilan yang modern dan informatif. Terima kasih NexaStudio!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#a855f7,#6366f1)">👩‍🏫</div>
+          <div><div class="testi-name">Dr. Siti Rahayu</div><div class="testi-company">Kepala Sekolah, SMA Bina Bangsa</div></div>
+        </div>
+      </div>
+      <!-- Duplicate for seamless loop -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"NexaStudio benar-benar mengubah citra perusahaan kami. Website yang mereka buat jauh melampaui ekspektasi — premium, cepat, dan konversi meningkat 3x lipat dalam 2 bulan pertama."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#3b82f6,#818cf8)">👨‍💼</div>
+          <div><div class="testi-name">Bapak Arief Wibowo</div><div class="testi-company">CEO, Mandiri Capital</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Profesional, on-time, dan hasilnya luar biasa. Tim NexaStudio sangat responsif dan benar-benar memahami apa yang kami butuhkan sebagai brand fashion premium."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#ec4899,#f43f5e)">👩‍🦰</div>
+          <div><div class="testi-name">Ibu Sari Dewi</div><div class="testi-company">Founder, Vera Couture</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Sudah pakai 3 vendor sebelumnya, NexaStudio yang pertama benar-benar deliver. Website kami sekarang jadi yang paling bagus di industri otomotif lokal. Highly recommended!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#f59e0b,#c9a84c)">👨‍💻</div>
+          <div><div class="testi-name">Budi Santoso</div><div class="testi-company">Marketing Dir, AutoPrime</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Kami sangat puas dengan website restoran kami. Tampilan elegan, booking online berjalan mulus, dan Google ranking naik signifikan. Tim support 24/7 sangat membantu."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#22c55e,#14b8a6)">👩‍🍳</div>
+          <div><div class="testi-name">Chef Ratna Puspita</div><div class="testi-company">Owner, Nusantara Dining</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Sebagai perusahaan teknologi, kami butuh vendor yang paham standar tinggi. NexaStudio deliver website yang terasa seperti buatan Silicon Valley agency. Exceptional work!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#6366f1,#3b82f6)">🧑‍💻</div>
+          <div><div class="testi-name">Kevin Hartanto</div><div class="testi-company">CTO, Nexus AI Solutions</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Website sekolah kami kini menjadi kebanggaan institusi. PPDB online berjalan sempurna, orang tua murid pun memuji tampilan yang modern dan informatif. Terima kasih NexaStudio!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#a855f7,#6366f1)">👩‍🏫</div>
+          <div><div class="testi-name">Dr. Siti Rahayu</div><div class="testi-company">Kepala Sekolah, SMA Bina Bangsa</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual fade-up">
+        <div class="about-img about-img-1">🖥️</div>
+        <div class="about-img about-img-2">💡</div>
+        <div class="about-img about-img-3">🎨</div>
+      </div>
+      <div class="fade-up fade-up-delay-2">
+        <div class="eyebrow" style="margin-bottom:16px">Tentang Kami</div>
+        <h2>Digital Agency yang<br><span style="color:var(--blue-light)">Lahir dari Passion</span></h2>
+        <p>NexaStudio lahir dari keyakinan bahwa setiap bisnis berhak tampil profesional di era digital. Sejak 2019, kami telah membantu ratusan perusahaan dari berbagai industri membangun presence digital yang kuat.</p>
+        <p>Tim kami terdiri dari desainer dan developer berpengalaman yang berdedikasi pada kualitas, detail, dan kepuasan client. Kami bukan sekadar vendor — kami adalah mitra pertumbuhan bisnis Anda.</p>
+        <p style="margin-bottom:8px;color:var(--white);font-weight:500">Visi:</p>
+        <p style="margin-bottom:24px">"Menjadi digital agency terpercaya yang mendorong transformasi bisnis Indonesia menuju standar global."</p>
+        <div class="team-info">
+          <div class="team-grid">
+            <div class="team-avatar">👨‍💻</div>
+            <div class="team-avatar">👩‍🎨</div>
+            <div class="team-avatar">👨‍🎨</div>
+            <div class="team-avatar">👩‍💻</div>
+            <div class="team-avatar">+</div>
+          </div>
+          <div class="team-count"><strong style="color:var(--white)">12+ Tim Profesional</strong><br>Designer, Developer & Strategist</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="faq-grid">
+      <div class="faq-side fade-up">
+        <div class="eyebrow" style="margin-bottom:16px">FAQ</div>
+        <h2>Pertanyaan yang<br><span style="color:var(--blue-light)">Sering Ditanyakan</span></h2>
+        <p>Tidak menemukan jawaban yang Anda cari? Hubungi kami langsung untuk konsultasi gratis.</p>
+        <a href="#contact" class="btn btn-primary">Tanya Langsung →</a>
+      </div>
+      <div class="faq-list fade-up fade-up-delay-2">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Berapa lama waktu pengerjaan website?
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-answer">Tergantung paket yang dipilih. Paket Starter selesai dalam 7–10 hari kerja, Business 14–21 hari kerja, dan Enterprise tergantung kompleksitas kebutuhan. Kami selalu on-time sesuai perjanjian.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Apakah website responsive di semua perangkat?
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-answer">Absolut. Setiap website yang kami bangun diuji secara menyeluruh di berbagai perangkat — desktop (1920px+), laptop, tablet, dan smartphone (Android & iOS) untuk memastikan tampilan sempurna di mana saja.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Apakah desain bisa disesuaikan 100%?
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-answer">Ya, setiap website kami buat custom dari nol sesuai identitas brand Anda. Tidak ada template — hanya desain original yang mencerminkan karakter unik bisnis Anda.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Apakah sudah termasuk domain dan hosting?
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-answer">Domain dan hosting 1 tahun sudah termasuk di paket Business dan Enterprise. Untuk paket Starter, kami dapat membantu setup dengan domain dan hosting pilihan Anda, atau kami sediakan dengan biaya tambahan yang sangat terjangkau.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Bagaimana sistem revisi bekerja?
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-answer">Paket Starter mendapat 3x revisi, Business dan Enterprise mendapat revisi tidak terbatas selama masa pengerjaan. Setiap revisi diproses dalam 1–2 hari kerja. Kami memastikan hasil akhir 100% memuaskan Anda.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Apakah ada garansi setelah website selesai?
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-answer">Ya! Semua paket mendapat garansi bug fix 30 hari gratis. Business dapat 6 bulan support, Enterprise 1 tahun support penuh termasuk update konten, maintenance rutin, dan priority response.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <div class="cta-bg"></div>
+  <div class="container fade-up">
+    <div class="eyebrow eyebrow-center" style="justify-content:center;margin-bottom:20px">Siap Memulai?</div>
+    <h2>Transformasikan Bisnis Anda<br><span class="gradient-text" style="background:linear-gradient(135deg,var(--blue-light),#818cf8,var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Hari Ini Juga</span></h2>
+    <p>Konsultasi gratis, tanpa commitment. Ceritakan kebutuhan Anda dan kami akan hadirkan solusi terbaik.</p>
+    <div class="cta-btns">
+      <a href="#contact" class="btn btn-primary" style="font-size:15px;padding:16px 32px;">Konsultasi Gratis →</a>
+      <a href="https://wa.me/628123456789" class="btn btn-ghost" style="font-size:15px;padding:16px 32px;">💬 WhatsApp Sekarang</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="fade-up">
+        <div class="eyebrow" style="margin-bottom:16px">Kontak</div>
+        <h2>Mari Bicara<br><span style="color:var(--blue-light)">Tentang Project Anda</span></h2>
+        <p>Kami siap membantu mewujudkan website impian Anda. Konsultasi pertama selalu gratis, tanpa syarat.</p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon">📧</div>
+            <div class="contact-item-text">
+              <div class="label">Email</div>
+              <div class="value">hello@nexastudio.id</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📱</div>
+            <div class="contact-item-text">
+              <div class="label">WhatsApp</div>
+              <div class="value">+62 812-3456-7890</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div class="contact-item-text">
+              <div class="label">Lokasi</div>
+              <div class="value">Jakarta Selatan, Indonesia</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">⏰</div>
+            <div class="contact-item-text">
+              <div class="label">Jam Kerja</div>
+              <div class="value">Senin–Sabtu, 09.00–18.00 WIB</div>
+            </div>
+          </div>
+        </div>
+        <div class="social-links">
+          <a href="#" class="social-link" title="Instagram">📷</a>
+          <a href="#" class="social-link" title="LinkedIn">💼</a>
+          <a href="#" class="social-link" title="Twitter/X">✖️</a>
+          <a href="#" class="social-link" title="YouTube">▶️</a>
+          <a href="#" class="social-link" title="Behance">🎨</a>
+        </div>
+      </div>
+      <div class="fade-up fade-up-delay-2">
+        <div class="glass-card" style="padding:36px">
+          <div class="contact-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nama Lengkap</label>
+                <input type="text" class="form-input" placeholder="John Doe">
+              </div>
+              <div class="form-group">
+                <label>Perusahaan</label>
+                <input type="text" class="form-input" placeholder="PT. Maju Bersama">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-input" placeholder="hello@company.com">
+              </div>
+              <div class="form-group">
+                <label>Nomor WhatsApp</label>
+                <input type="tel" class="form-input" placeholder="+62 812-xxxx-xxxx">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Layanan yang Dibutuhkan</label>
+              <select class="form-input" style="cursor:pointer;appearance:none;background-image:url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;%238a8f9e&quot; stroke-width=&quot;2&quot;><path d=&quot;M6 9l6 6 6-6&quot;/></svg>');background-repeat:no-repeat;background-position:right 16px center;background-size:16px;">
+                <option value="" style="background:#0d0f14">Pilih layanan...</option>
+                <option style="background:#0d0f14">Company Profile Website</option>
+                <option style="background:#0d0f14">Landing Page</option>
+                <option style="background:#0d0f14">Website UMKM</option>
+                <option style="background:#0d0f14">Website Sekolah</option>
+                <option style="background:#0d0f14">Custom Development</option>
+                <option style="background:#0d0f14">SEO Optimization</option>
+                <option style="background:#0d0f14">Website Maintenance</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Ceritakan Kebutuhan Anda</label>
+              <textarea class="form-textarea" placeholder="Halo NexaStudio, saya membutuhkan website untuk..."></textarea>
+            </div>
+            <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;font-size:15px;padding:16px;" onclick="alert('Terima kasih! Tim kami akan segera menghubungi Anda dalam 1x24 jam.')">
+              Kirim Pesan →
+            </button>
+            <a href="https://wa.me/628123456789?text=Halo%20NexaStudio,%20saya%20ingin%20konsultasi%20pembuatan%20website" class="whatsapp-btn" target="_blank">
+              💬 Chat via WhatsApp Sekarang
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <div class="logo-mark"><span>N</span></div>
+          NexaStudio
+        </a>
+        <p>Agency digital premium yang membantu bisnis Indonesia tampil profesional dan berkelas di era digital global.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">📷</a>
+          <a href="#" class="social-link">💼</a>
+          <a href="#" class="social-link">✖️</a>
+          <a href="#" class="social-link">▶️</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Layanan</h5>
+        <ul class="footer-links">
+          <li><a href="#">Company Profile</a></li>
+          <li><a href="#">Landing Page</a></li>
+          <li><a href="#">Website UMKM</a></li>
+          <li><a href="#">Website Sekolah</a></li>
+          <li><a href="#">Custom Development</a></li>
+          <li><a href="#">SEO Optimization</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Perusahaan</h5>
+        <ul class="footer-links">
+          <li><a href="#about">Tentang Kami</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#pricing">Harga</a></li>
+          <li><a href="#testimonials">Testimonial</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Karir</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Kontak</h5>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@nexastudio.id">hello@nexastudio.id</a></li>
+          <li><a href="https://wa.me/628123456789">+62 812-3456-7890</a></li>
+          <li><a href="#">Jakarta Selatan, Indonesia</a></li>
+          <li><a href="#">Senin–Sabtu, 09–18 WIB</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 <span>NexaStudio</span>. All rights reserved. Made with ❤️ in Indonesia.</div>
+      <div style="display:flex;gap:20px">
+        <a href="#" style="font-size:13px;color:var(--gray);text-decoration:none;transition:color 0.25s" onmouseover="this.style.color='#f5f6fa'" onmouseout="this.style.color='#8a8f9e'">Privacy Policy</a>
+        <a href="#" style="font-size:13px;color:var(--gray);text-decoration:none;transition:color 0.25s" onmouseover="this.style.color='#f5f6fa'" onmouseout="this.style.color='#8a8f9e'">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  cursor.style.transform = `translate(${mouseX - 6}px, ${mouseY - 6}px)`;
+});
+function animateCursorRing() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  cursorRing.style.transform = `translate(${ringX - 18}px, ${ringY - 18}px)`;
+  requestAnimationFrame(animateCursorRing);
+}
+animateCursorRing();
+
+// SCROLL PROGRESS
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = (scrollTop / docHeight) * 100;
+  document.getElementById('scroll-progress').style.width = progress + '%';
+
+  // NAVBAR SCROLL
+  document.getElementById('navbar').classList.toggle('scrolled', scrollTop > 50);
+
+  // BACK TO TOP
+  document.getElementById('back-to-top').classList.toggle('visible', scrollTop > 400);
+});
+
+// HAMBURGER
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+document.querySelectorAll('.mobile-link, .mobile-menu .btn').forEach(el => {
+  el.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+// PORTFOLIO FILTER
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// FAQ TOGGLE
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// SCROLL ANIMATIONS
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// COUNTER ANIMATION
+function animateCounter(el, target, suffix) {
+  let start = 0;
+  const duration = 2000;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start += step;
+    if (start >= target) { start = target; clearInterval(timer); }
+    el.textContent = Math.floor(start);
+  }, 16);
+}
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(document.getElementById('stat1'), 150);
+      animateCounter(document.getElementById('stat2'), 98);
+      animateCounter(document.getElementById('stat3'), 5);
+      statsObserver.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+const statsEl = document.querySelector('.stats-inner');
+if (statsEl) statsObserver.observe(statsEl);
+
+// PARTICLES
+(function() {
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let W, H;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function Particle() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = (Math.random() - 0.5) * 0.3;
+    this.r = Math.random() * 1.5 + 0.3;
+    this.alpha = Math.random() * 0.5 + 0.1;
+  }
+  Particle.prototype.update = function() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0) this.x = W;
+    if (this.x > W) this.x = 0;
+    if (this.y < 0) this.y = H;
+    if (this.y > H) this.y = 0;
+  };
+
+  for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.update();
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(96,165,250,${p.alpha})`;
+      ctx.fill();
+    });
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(59,130,246,${0.06 * (1 - dist / 120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// MOUSE PARALLAX on HERO
+document.addEventListener('mousemove', (e) => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  const orbs = document.querySelectorAll('.glow-orb');
+  orbs.forEach((orb, i) => {
+    const factor = (i + 1) * 0.5;
+    orb.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
+  });
+});
+
+// INIT HERO ANIMATION
+window.addEventListener('load', () => {
+  document.querySelectorAll('.hero .fade-up').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), i * 150 + 200);
+  });
+});
+</script>
 </body>
 </html>
