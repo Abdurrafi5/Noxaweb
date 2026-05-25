@@ -1,11 +1,404 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="eng">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NoxaWeb</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
-    
+
+  <!-- Background Glow -->
+  <div class="blur blur1"></div>
+  <div class="blur blur2"></div>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+
+      <div class="logo">
+        Noxa<span>Web</span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">Tentang</a></li>
+        <li><a href="#services">Layanan</a></li>
+        <li><a href="#portfolio">Portofolio</a></li>
+        <li><a href="#pricing">Harga</a></li>
+        <li><a href="#testimonials">Testimoni</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Kontak</a></li>
+      </ul>
+
+      <a href="#contact" class="btn-nav">
+        Mulai Project
+      </a>
+
+      <div class="menu-toggle">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+
+    <div class="hero-text">
+
+      <span class="hero-badge">
+        Website Modern & Futuristik
+      </span>
+
+      <h1>
+        Bangun Website <br>
+        Profesional Bersama <br>
+        NoxaWeb
+      </h1>
+
+      <p>
+        Kami membantu bisnis, UMKM, sekolah, dan personal brand memiliki website modern, responsif, cepat, dan profesional.
+      </p>
+
+      <div class="hero-buttons">
+
+        <a href="#portfolio" class="btn-primary">
+          Lihat Portofolio
+        </a>
+
+        <a href="#contact" class="btn-secondary">
+          Hubungi Kami
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="hero-card">
+
+      <div class="card-glow"></div>
+
+      <div class="window-top">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="card-content">
+
+        <h3>NoxaWeb Studio</h3>
+
+        <div class="line"></div>
+        <div class="line short"></div>
+
+        <div class="mini-boxes">
+          <div class="mini-box"></div>
+          <div class="mini-box"></div>
+          <div class="mini-box"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+
+    <div class="section-title">
+      <span>Tentang Kami</span>
+      <h2>Kenal Dengan NoxaWeb</h2>
+    </div>
+
+    <div class="about-content">
+
+      <p>
+        NoxaWeb adalah jasa pembuatan website modern dengan desain futuristik, performa cepat, dan tampilan profesional untuk berbagai kebutuhan digital.
+      </p>
+
+      <div class="about-boxes">
+
+        <div class="about-box">
+          <i class="fa-solid fa-rocket"></i>
+          <h3>Modern Design</h3>
+          <p>Desain clean dan futuristik.</p>
+        </div>
+
+        <div class="about-box">
+          <i class="fa-solid fa-mobile-screen"></i>
+          <h3>Responsive</h3>
+          <p>Tampil sempurna di semua device.</p>
+        </div>
+
+        <div class="about-box">
+          <i class="fa-solid fa-bolt"></i>
+          <h3>Fast Performance</h3>
+          <p>Loading cepat dan ringan.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Services -->
+  <section class="services" id="services">
+
+    <div class="section-title">
+      <span>Layanan</span>
+      <h2>Apa Yang Kami Kerjakan</h2>
+    </div>
+
+    <div class="service-grid">
+
+      <div class="service-card">
+        <i class="fa-solid fa-laptop-code"></i>
+        <h3>Landing Page</h3>
+        <p>Website promosi modern dan menarik.</p>
+      </div>
+
+      <div class="service-card">
+        <i class="fa-solid fa-building"></i>
+        <h3>Company Profile</h3>
+        <p>Website profesional untuk perusahaan.</p>
+      </div>
+
+      <div class="service-card">
+        <i class="fa-solid fa-school"></i>
+        <h3>Website Sekolah</h3>
+        <p>Website informatif dan modern.</p>
+      </div>
+
+      <div class="service-card">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <h3>Toko Online</h3>
+        <p>Website penjualan dengan tampilan premium.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Portfolio -->
+  <section class="portfolio" id="portfolio">
+
+    <div class="section-title">
+      <span>Portofolio</span>
+      <h2>Project Kami</h2>
+    </div>
+
+    <div class="portfolio-grid">
+
+      <div class="portfolio-card">
+        <div class="portfolio-image"></div>
+        <h3>Business Website</h3>
+      </div>
+
+      <div class="portfolio-card">
+        <div class="portfolio-image"></div>
+        <h3>Modern Landing Page</h3>
+      </div>
+
+      <div class="portfolio-card">
+        <div class="portfolio-image"></div>
+        <h3>School Website</h3>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing" id="pricing">
+
+    <div class="section-title">
+      <span>Harga</span>
+      <h2>Pilih Paket Website</h2>
+    </div>
+
+    <div class="pricing-grid">
+
+      <div class="price-card">
+
+        <h3>Basic</h3>
+
+        <h1>150K</h1>
+
+        <ul>
+          <li>1 Halaman</li>
+          <li>Responsive</li>
+          <li>Desain Modern</li>
+        </ul>
+
+        <button>Pilih Paket</button>
+
+      </div>
+
+      <div class="price-card active">
+
+        <h3>Standard</h3>
+
+        <h1>350K</h1>
+
+        <ul>
+          <li>Multi Halaman</li>
+          <li>Form Kontak</li>
+          <li>Responsive</li>
+        </ul>
+
+        <button>Pilih Paket</button>
+
+      </div>
+
+      <div class="price-card">
+
+        <h3>Premium</h3>
+
+        <h1>700K</h1>
+
+        <ul>
+          <li>Full Custom</li>
+          <li>Animasi Premium</li>
+          <li>Admin Panel</li>
+        </ul>
+
+        <button>Pilih Paket</button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="testimonials">
+
+    <div class="section-title">
+      <span>Testimoni</span>
+      <h2>Apa Kata Client</h2>
+    </div>
+
+    <div class="testimonial-grid">
+
+      <div class="testimonial-card">
+        <p>
+            “Website sangat bagus, sampai adek saya ingin membuat website seperti ini. dia mengambil dompet mamanya.”
+        </p>
+
+        <h3>Vandjalu</h3>
+      </div>
+
+      <div class="testimonial-card">
+        <p>
+          “Pelayanannya sangat cepat dan memuaskan, saya aja kalah fast respon dengan sang pelayan.”
+        </p>
+
+        <h3>Satria</h3>
+      </div>
+
+      <div class="testimonial-card">
+        <p>
+          “Designnya menarik sekali, saya sangat menyukai design yang diberikan, saya sampai menyombongkan design tersebut ke bapak saya.”
+        </p>
+
+        <h3>Iqbal</h3>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+
+    <div class="section-title">
+      <span>FAQ</span>
+      <h2>Pertanyaan Umum</h2>
+    </div>
+
+    <div class="faq-container">
+
+      <div class="faq-item">
+        <h3>Berapa lama pengerjaan website?</h3>
+        <p>Tergantung mood.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Apakah website responsive?</h3>
+        <p>Terserah kami.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Apakah bisa revisi?</h3>
+        <p>100K per revisi.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Contact -->
+  <section class="contact" id="contact">
+
+    <div class="section-title">
+      <span>Kontak</span>
+      <h2>Hubungi NoxaWeb</h2>
+    </div>
+
+    <form class="contact-form">
+
+      <input type="text" placeholder="Nama">
+
+      <input type="email" placeholder="Email">
+
+      <textarea placeholder="Pesan"></textarea>
+
+      <button type="submit">
+        Kirim Pesan
+      </button>
+
+    </form>
+
+  </section>
+
+  <!-- Footer -->
+  <footer>
+
+    <h2>NoxaWeb</h2>
+
+    <p>
+      Build Your Digital Future
+    </p>
+
+    <div class="socials">
+
+      <i class="fa-brands fa-instagram"></i>
+
+      <i class="fa-brands fa-whatsapp"></i>
+
+      <i class="fa-brands fa-github"></i>
+
+    </div>
+
+    <span>
+      © 2026 NoxaWeb - All Rights Reserved
+    </span>
+
+  </footer>
+
+  <script src="script.js"></script>
+
 </body>
 </html>
